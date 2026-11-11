@@ -28,7 +28,7 @@ export default function ResumeModal({ isOpen, onClose }: ResumeModalProps) {
         </p>
         <div className="flex space-x-3">
           <a
-            href="/resume.pdf"
+            href="/Devesh Jangid - AI Engineer Resume.pdf"
             download="Devesh_Jangid_Resume.pdf"
             className="flex-1 flex items-center justify-center space-x-2 py-2.5 bg-slate-900 text-white rounded-lg text-xs font-medium hover:bg-slate-800 transition"
           >
