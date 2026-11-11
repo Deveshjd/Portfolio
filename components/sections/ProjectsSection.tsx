@@ -12,34 +12,34 @@ interface ProjectItem {
 }
 
 const PROJECTS: ProjectItem[] = [
-  {
-    title: "Multilingual DeepFake Audio Detection",
+{
+    title: "FinShield AI — Financial Threat & Mule Defense",
     description:
-      "Signal processing and spectral analysis pipeline exposing synthetic audio manipulation across five distinct languages with FastAPI service endpoints.",
-    tags: ["FastAPI", "Audio Processing", "Python"],
-    link: "https://github.com/Deveshjd",
+      "Autonomous cyber intelligence platform unifying multi-platform ingestion, heuristic threat scoring, live URL probing, and interactive ReactFlow knowledge graphs to dismantle decentralized financial fraud networks.",
+    tags: ["FastAPI", "Python", "React 19", "PostgreSQL"],
+    link: "https://github.com/Priyanshu-Thakur63/FinShield_Valorant",
   },
   {
     title: "API Anomaly & Intrusion Detection",
     description:
       "Microservice traffic filter evaluating request patterns in real time to isolate automated fuzzing, injection patterns, and unauthorized query spikes.",
-    tags: ["Python", "REST API", "Security"],
-    link: "https://github.com/Deveshjd",
+    tags: ["REST API", "Security"],
+    link: "https://github.com/MindOverFloww/Sentinel-API",
   },
   {
     title: "CNN Digit Classifier (98.76% Accuracy)",
     description:
       "Custom convolutional neural network trained on handwritten digits with customized kernel filters, dropout regularizers, and efficient inference throughput.",
     tags: ["PyTorch / CNN", "Computer Vision"],
-    link: "https://github.com/Deveshjd",
+    link: "https://colab.research.google.com/drive/1novDVCwzgHxC525ZyQuRMWjKB5OJ25_n",
   },
-  {
-    title: "POSIX Socket HTTP Server",
-    description:
-      "Full-stack HTTP server engineered in raw C++ featuring thread pooling, custom XOR encryption handlers, and URL parameter decoding.",
-    tags: ["C++", "Sockets", "Concurrency"],
-    link: "https://github.com/Deveshjd",
-  },
+  // {
+  //   title: "POSIX Socket HTTP Server",
+  //   description:
+  //     "Full-stack HTTP server engineered in raw C++ featuring thread pooling, custom XOR encryption handlers, and URL parameter decoding.",
+  //   tags: ["C++", "Sockets", "Concurrency"],
+  //   link: "https://github.com/Deveshjd",
+  // },
 ];
 
 export default function ProjectsSection() {

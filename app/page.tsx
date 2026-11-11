@@ -27,8 +27,9 @@ export default function Home() {
   const [activeSection, setActiveSection] = useState<number>(0);
   const [showResumeModal, setShowResumeModal] = useState<boolean>(false);
   const isScrollingRef = useRef<boolean>(false);
+  const touchStartY = useRef<number | null>(null);
 
-  // Wheel listener for scrollytelling transition
+  // Mouse wheel listener (Desktop)
   useEffect(() => {
     const handleWheel = (e: WheelEvent) => {
       if (isScrollingRef.current) return;
@@ -54,6 +55,48 @@ export default function Home() {
     return () => window.removeEventListener("wheel", handleWheel);
   }, []);
 
+  // Touch swipe listener (Mobile)
+  useEffect(() => {
+    const handleTouchStart = (e: TouchEvent) => {
+      touchStartY.current = e.touches[0].clientY;
+    };
+
+    const handleTouchEnd = (e: TouchEvent) => {
+      if (touchStartY.current === null || isScrollingRef.current) return;
+
+      const target = document.activeElement as HTMLElement | null;
+      if (target && ["INPUT", "TEXTAREA"].includes(target.tagName)) return;
+
+      const touchEndY = e.changedTouches[0].clientY;
+      const diffY = touchStartY.current - touchEndY;
+
+      // 40px threshold prevents small taps or accidental touches from triggering navigation
+      if (Math.abs(diffY) > 40) {
+        isScrollingRef.current = true;
+        if (diffY > 0) {
+          // Swiped up -> next section
+          setActiveSection((prev) => Math.min(prev + 1, SECTIONS.length - 1));
+        } else {
+          // Swiped down -> previous section
+          setActiveSection((prev) => Math.max(prev - 1, 0));
+        }
+        setTimeout(() => {
+          isScrollingRef.current = false;
+        }, 550);
+      }
+
+      touchStartY.current = null;
+    };
+
+    window.addEventListener("touchstart", handleTouchStart, { passive: true });
+    window.addEventListener("touchend", handleTouchEnd, { passive: true });
+
+    return () => {
+      window.removeEventListener("touchstart", handleTouchStart);
+      window.removeEventListener("touchend", handleTouchEnd);
+    };
+  }, []);
+
   // Keyboard navigation
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -74,8 +117,7 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="relative w-screen h-screen overflow-hidden bg-slate-50 text-slate-900 font-sans selection:bg-slate-200">
-      
+    <div className="relative w-screen h-dvh overflow-hidden bg-slate-50 text-slate-900 font-sans selection:bg-slate-200 touch-none">
       {/* Header */}
       <Header
         sections={SECTIONS}
@@ -84,16 +126,18 @@ export default function Home() {
         onOpenResume={() => setShowResumeModal(true)}
       />
 
-      {/* Side Dots */}
-      <StepIndicator
-        sections={SECTIONS}
-        activeSection={activeSection}
-        onSelectSection={(idx) => setActiveSection(idx)}
-      />
+      {/* Side Dots (Hidden on small mobile screens to prevent clutter) */}
+      <div className="hidden sm:block">
+        <StepIndicator
+          sections={SECTIONS}
+          activeSection={activeSection}
+          onSelectSection={(idx) => setActiveSection(idx)}
+        />
+      </div>
 
       {/* Main Presentation Stage */}
       <main className="w-full h-full relative flex items-center justify-center px-6 md:px-16 lg:px-24">
-        {/* Cutout Photo Layer: Hero (0) & About (1) */}
+        {/* Cutout Photo Layer: Pinned for desktop Hero (0) & About (1) */}
         <PortraitCutout visible={activeSection <= 1} />
 
         {/* Section Router */}
